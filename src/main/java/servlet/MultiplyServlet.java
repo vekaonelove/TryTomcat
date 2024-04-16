@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "multiplyServlet", value = "/multiply-servlet")
+@WebServlet(name = "multiplyServlet", urlPatterns = "/multiply-servlet")
 public class MultiplyServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(MultiplyServlet.class.getName());
     private final int NUMBER_TO_MULTIPLY = 7;
@@ -25,16 +25,13 @@ public class MultiplyServlet extends HttpServlet {
         logger.info("Result of multiplication " + digit + " is " + result);
 
         request.setAttribute("result", result);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/result.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/result.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
             logger.error("Error while forwarding request", e);
         }
 
-//        PrintWriter out = response.getWriter();
-//        out.println("<html><body>");
-//        out.println("<h1>Result: " + result + "</h1>");
-//        out.println("</body></html>");
+
     }
 }
