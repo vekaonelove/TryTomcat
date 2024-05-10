@@ -2,17 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Multiply Digit</title>
-    <link rel="stylesheet" type="text/css" href="resources/css/index.css">
+    <title>repet.hub - digital agency</title>
 </head>
 <body>
 <div class="container">
-    <h1>Multiply a Digit</h1>
-    <form action="multiply-servlet" method="get">
-        <label for="digit">Enter a digit:</label><br>
-        <input type="number" id="digit" name="digit"><br>
-        <input type="submit" value="Submit">
-    </form>
+    <h1>repet.hub</h1>
+    <button onclick="window.location.href='pages/login.jsp'">Login</button>
+    <button onclick="window.location.href='pages/register.jsp'">Register</button>
 </div>
 </body>
 </html>

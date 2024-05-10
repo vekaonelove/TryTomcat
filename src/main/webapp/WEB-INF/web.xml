@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>MultiplyServlet</servlet-name>
-        <servlet-class>servlet.MultiplyServlet</servlet-class>
+        <servlet-class>servlet.LoginServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
