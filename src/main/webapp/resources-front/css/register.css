@@ -10,19 +10,28 @@ body {
     margin: 0;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-    text-align: center;
-}
-
 h1 {
     font-size: 3em;
     margin-bottom: 20px;
     color: #9B29BB;
 }
 
-button {
+label {
+    display: block;
+    color: #9B29BB;
+    margin-bottom: 2px;
+}
+
+input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
     background-color: white;
     color: #9B29BB;
     border: 2px solid #AA98A9;
@@ -37,7 +46,7 @@ button {
     border-radius: 12px;
 }
 
-button:hover {
+input[type=submit]:hover {
     background-color: #9B29BB;
     color: #AA98A9;
 }

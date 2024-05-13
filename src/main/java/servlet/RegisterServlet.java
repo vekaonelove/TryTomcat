@@ -31,6 +31,6 @@ public class RegisterServlet extends HttpServlet {
 
         logger.info("User registered successfully: " + username);
 
-        response.sendRedirect("/account.jsp");
+        response.sendRedirect("pages/account.jsp");
     }
 }

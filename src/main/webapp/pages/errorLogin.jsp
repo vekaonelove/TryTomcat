@@ -1,18 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
   User: hp
-  Date: 11/04/2024
-  Time: 17:51
+  Date: 30/04/2024
+  Time: 13:45
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
-<head>
-    <title>Result</title>
-    <link rel="stylesheet" type="text/css" href="resources-front/css/result.css">
+<p>
+    <title>Login Error</title>
+    <p>Error while logging in. Incorrect login or password</p>
 </head>
 <body>
-<h1>Result: ${result}</h1>
+
 </body>
 </html>

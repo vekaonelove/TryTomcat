@@ -3,10 +3,12 @@
 <html>
 <head>
   <title>Register Page</title>
+  <link rel="stylesheet" type="text/css" href="../resources-front/css/register.css">
+
 </head>
 <body>
 <h1>Register</h1>
-<form action="/register-servlet" method="post">
+<form action="../register-servlet" method="post">
   <label for="username">Username:</label><br>
   <input type="text" id="username" name="username"><br>
   <label for="password">Password:</label><br>

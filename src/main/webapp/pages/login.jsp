@@ -3,10 +3,11 @@
 <html>
 <head>
     <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="../resources-front/css/login.css">
 </head>
 <body>
 <h1>Login</h1>
-<form action="/login-servlet" method="post">
+<form action="../login-servlet" method="post">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
     <label for="password">Password:</label><br>

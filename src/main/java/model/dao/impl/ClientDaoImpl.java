@@ -12,18 +12,31 @@ import java.util.List;
 
 public class ClientDaoImpl implements ClientDao {
     private static final Logger logger = LogManager.getLogger(LoginServlet.class.getName());
-    private static final String INSERT_CLIENT_SQL =
-            "INSERT INTO clients (username, password) VALUES (?, ?)";
 
     public ClientDaoImpl() {
     }
 
-    private Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/repet";
-        String user = "root";
-        String password = "1234";
-        return DriverManager.getConnection(url, user, password);
+    private Connection getConnection() {
+        Connection conn = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Connecting to the database");
+
+            String url = "jdbc:mysql://localhost:3307/repet";
+            String user = "root";
+            String password = "12345678Ab*";
+            conn = DriverManager.getConnection(url, user, password);
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
     }
+
+    private static final String INSERT_CLIENT_SQL =
+            "INSERT INTO clients (username, passwrd, first_name, last_name, email) VALUES (?, ?, ?, ?, ?)";
 
     @Override
     public void addClient(Client client) {
@@ -35,19 +48,17 @@ public class ClientDaoImpl implements ClientDao {
             preparedStatement.setString(4, client.getLastName());
             preparedStatement.setString(5, client.getEmail());
             preparedStatement.executeUpdate();
-            logger.info("Client added to the database: " + client.getUsername());
+            logger.info("Added a client to the db: " + client.getUsername());
         } catch (SQLException e) {
-            logger.error("Error while adding client to the database", e);
+            logger.error("Error: cannot add the client to the db", e);
         }
     }
-
+    @Override
     public List<Client> getAllClients() {
         List<Client> clients = new ArrayList<>();
         String SELECT_ALL_CLIENTS_SQL = "SELECT * FROM clients";
-
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENTS_SQL)) {
-
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -87,6 +98,100 @@ public class ClientDaoImpl implements ClientDao {
         }
 
         return client;
+    }
+
+    @Override
+    public void updateClientUsername(int clientId, String username) {
+        String UPDATE_USERNAME_SQL = "UPDATE clients SET username = ? WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USERNAME_SQL)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, clientId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void updateClientFirstName(int clientId, String firstName) {
+        String UPDATE_FIRST_NAME_SQL = "UPDATE clients SET first_name = ? WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_FIRST_NAME_SQL)) {
+
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setInt(2, clientId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void updateClientLastName(int clientId, String lastName) {
+        String UPDATE_LAST_NAME_SQL = "UPDATE clients SET last_name = ? WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_LAST_NAME_SQL)) {
+            preparedStatement.setString(1, lastName);
+            preparedStatement.setInt(2, clientId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void updateClientPassword(int clientId, String password) {
+        String UPDATE_PASSWORD_SQL = "UPDATE clients SET passwrd = ? WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PASSWORD_SQL)) {
+
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, clientId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void updateClientEmail(int clientId, String email) {
+        String UPDATE_EMAIL_SQL = "UPDATE clients SET email = ? WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_EMAIL_SQL)) {
+
+            preparedStatement.setString(1, email);
+            preparedStatement.setInt(2, clientId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void deleteClient(int id) {
+        String DELETE_CLIENT_SQL = "DELETE FROM clients WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_SQL)) {
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
     }
 
     private void printSQLException(SQLException ex) {

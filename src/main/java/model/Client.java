@@ -1,6 +1,9 @@
 package model;
 
+import service.IdGenerator;
+
 public class Client {
+    int id;
     private String username;
     private String password;
     private String firstName;
@@ -8,11 +11,20 @@ public class Client {
     private String email;
 
     public Client(String username, String password, String firstName, String lastName, String email) {
+        this.id = IdGenerator.increment();
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {

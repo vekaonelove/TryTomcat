@@ -1,5 +1,6 @@
 package servlet;
 
+import jakarta.servlet.http.HttpSession;
 import model.dao.ClientDao;
 import model.dao.impl.ClientDaoImpl;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Client;
+import service.impl.SessionServiceImpl;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,6 +17,7 @@ import java.sql.SQLException;
 
 @WebServlet(name = "loginServlet", urlPatterns = "/login-servlet")
 public class LoginServlet extends HttpServlet {
+    private final SessionServiceImpl sessionServiceImpl = new SessionServiceImpl();
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         String username = request.getParameter("username");
@@ -24,9 +27,12 @@ public class LoginServlet extends HttpServlet {
         Client client = clientDao.getClientByUsernameAndPassword(username, password);
 
         if (client != null) {
-            response.sendRedirect("/account.jsp");
+            HttpSession session = request.getSession();
+            session.setAttribute("client", client);
+
+            response.sendRedirect("pages/account.jsp");
         } else {
-            response.getWriter().println("Invalid username or password");
+            response.sendRedirect("pages/errorLogin.jsp");
         }
     }
 
