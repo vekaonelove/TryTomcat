@@ -16,6 +16,7 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Client client = (Client) request.getSession().getAttribute("client");
+        //todo extract all strings to constants
         if (client == null) {
             response.sendRedirect("login.jsp");
         } else {
@@ -24,7 +25,7 @@ public class AccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String action = request.getParameter("action");
         Client client = (Client) request.getSession().getAttribute("client");
 
@@ -34,7 +35,6 @@ public class AccountServlet extends HttpServlet {
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String email = request.getParameter("email");
-
             clientDao.updateClientUsername(client.getId(), username);
             clientDao.updateClientPassword(client.getId(), password);
             clientDao.updateClientFirstName(client.getId(), firstName);
@@ -57,5 +57,8 @@ public class AccountServlet extends HttpServlet {
             request.getSession().invalidate();
             response.sendRedirect("login.jsp");
         }
+
+        //fixme change to switch case??
+
     }
 }

@@ -11,9 +11,6 @@ import model.Client;
 import service.impl.SessionServiceImpl;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 @WebServlet(name = "loginServlet", urlPatterns = "/login-servlet")
 public class LoginServlet extends HttpServlet {

@@ -9,7 +9,9 @@
 <html>
 <head>
     <title>Error 404</title>
-    <h>We couldn't find your page. Please try again :(</h>h>
+    <link rel="stylesheet" type="text/css" href="../resources-front/css/404.css">
+    <h>404</h>
+    <h>We couldn't find your page :(</h>
 </head>
 <body>
 

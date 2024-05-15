@@ -165,7 +165,7 @@ public class ClientDaoImpl implements ClientDao {
 
     @Override
     public void updateClientEmail(int clientId, String email) {
-        String UPDATE_EMAIL_SQL = "UPDATE clients SET email = ? WHERE id = ?";
+        String UPDATE_EMAIL_SQL = "UPDATE clients SET email = ? WHERE id = ?"; //todo extract to constant
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_EMAIL_SQL)) {
@@ -191,7 +191,7 @@ public class ClientDaoImpl implements ClientDao {
 
         } catch (SQLException e) {
             printSQLException(e);
-        }
+        }// todo one method to establish connection
     }
 
     private void printSQLException(SQLException ex) {
