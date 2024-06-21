@@ -15,6 +15,12 @@ h1 {
     margin-bottom: 20px;
     color: #9B29BB;
 }
+p {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #9B29BB;
+}
+
 
 label {
     display: block;

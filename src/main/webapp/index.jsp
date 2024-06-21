@@ -9,6 +9,7 @@
 <div class="container">
     <img src="resources-front/images/logo.png" alt="Logo" width="200" height="200"> <!-- Add width and height attributes -->
     <h1>repet.hub</h1>
+    <h2>best place to make your online school a top-choice for clients</h2>
     <button class="login-button" onclick="window.location.href='pages/login.jsp'">Login</button>
     <button class="register-button" onclick="window.location.href='pages/register.jsp'">Register</button>
 </div>

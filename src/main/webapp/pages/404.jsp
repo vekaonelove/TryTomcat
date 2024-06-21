@@ -1,19 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hp
-  Date: 30/04/2024
-  Time: 13:44
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Error 404</title>
-    <link rel="stylesheet" type="text/css" href="../resources-front/css/404.css">
-    <h>404</h>
-    <h>We couldn't find your page :(</h>
+    <link rel="stylesheet" type="text/css" href="../resources-front/css/500.css">
 </head>
 <body>
-
+<div class="error-container">
+    <h1 class="error-code">404</h1>
+    <p class="error-message">Page not found</p>
+    <p class="error-description">Sorry, we couldn't find your page :(</p>
+</div>
 </body>
 </html>

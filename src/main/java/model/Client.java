@@ -3,7 +3,7 @@ package model;
 import service.IdGenerator;
 
 public class Client {
-    int id;
+    private int id;
     private String username;
     private String password;
     private String firstName;

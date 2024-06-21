@@ -1,7 +1,5 @@
 package servlet;
 
-import model.dao.ClientDao;
-import model.dao.impl.ClientDaoImpl;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import service.ClientService;
+import service.impl.ClientServiceImpl;
 import java.io.IOException;
 
 @WebServlet(name = "registerServlet", urlPatterns = "/register-servlet")
@@ -26,8 +25,8 @@ public class RegisterServlet extends HttpServlet {
 
         logger.info("Received registration request from user: " + username);
 
-        ClientDao clientDao = new ClientDaoImpl();
-        clientDao.addClient(new Client(username, password, firstName, lastName, email));
+        ClientService clientService = new ClientServiceImpl();
+        clientService.addClient(new Client(username, password, firstName, lastName, email));
 
         logger.info("User registered successfully: " + username);
 
