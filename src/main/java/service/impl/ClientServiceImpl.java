@@ -10,18 +10,50 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pool.ConnectionPool.getConnection;
+
 public class ClientServiceImpl implements ClientService {
     private static final Logger logger = LogManager.getLogger(ClientServiceImpl.class.getName());
 
+    private static final String CHECK_ADMIN_SQL =
+            "SELECT COUNT(*) FROM clients WHERE username = ? AND passwrd = ? AND client_role = 'ADMIN'";
+    private static final String GET_ROLE_SQL =
+            "SELECT client_role FROM clients WHERE username = ?";
     @Override
         public boolean checkAdmin(String username, String password) {
-            // Implement your logic here
-            return false;
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(CHECK_ADMIN_SQL)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("SQL query Error: cannot check if the user is an admin", e);
         }
+        return false;
+    }
 
         @Override
         public String extractRole(String username) {
-            // Implement your logic here to get the role of the user from the database
+            try (Connection connection = getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(GET_ROLE_SQL)) {
+
+                preparedStatement.setString(1, username);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getString("client_role");
+                    }
+                }
+            } catch (SQLException e) {
+                logger.error("SQL query Error: cannot extract the role of the user", e);
+            }
+
             return null;
         }
 
@@ -31,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void addClient(Client client) {
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CLIENT_SQL)) {
             preparedStatement.setString(1, client.getUsername());
             preparedStatement.setString(2, client.getPassword());
@@ -48,7 +80,7 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> extractAllClients() {
         List<Client> clients = new ArrayList<>();
         String SELECT_ALL_CLIENTS_SQL = "SELECT * FROM clients";
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENTS_SQL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -61,7 +93,7 @@ public class ClientServiceImpl implements ClientService {
                 clients.add(new Client(username, password, firstName, lastName, email));
             }
         } catch (SQLException e) {
-            printSQLException(e);
+            logger.error("Error extracting all clients", e);
         }
 
         return clients;
@@ -72,7 +104,7 @@ public class ClientServiceImpl implements ClientService {
         String SELECT_CLIENT_SQL =
                 "SELECT * FROM clients WHERE username = ? AND passwrd = ?";
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CLIENT_SQL)) {
 
             preparedStatement.setString(1, username);
@@ -97,7 +129,7 @@ public class ClientServiceImpl implements ClientService {
                 "UPDATE clients SET username = ?, passwrd = ?, first_name = ?," +
                         " last_name = ?, email = ? WHERE id = ?";
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL)) {
 
             preparedStatement.setString(1, client.getUsername());
@@ -119,7 +151,7 @@ public class ClientServiceImpl implements ClientService {
     public void deleteClient(int id) {
         String DELETE_CLIENT_SQL = "DELETE FROM clients WHERE id = ?";
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_SQL)) {
 
             preparedStatement.setInt(1, id);

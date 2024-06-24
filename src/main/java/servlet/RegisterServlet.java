@@ -4,6 +4,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,9 +26,12 @@ public class RegisterServlet extends HttpServlet {
 
         logger.info("Received registration request from user: " + username);
 
+        Client client = new Client(username, password, firstName, lastName, email);
         ClientService clientService = new ClientServiceImpl();
-        clientService.addClient(new Client(username, password, firstName, lastName, email));
+        clientService.addClient(client);
 
+        HttpSession session = request.getSession();
+        session.setAttribute("client", client);
         logger.info("User registered successfully: " + username);
 
         response.sendRedirect("pages/account.jsp");

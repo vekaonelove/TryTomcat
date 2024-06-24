@@ -11,6 +11,12 @@ public class ConnectionPool {
     private static HikariDataSource ds;
 
     static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new ExceptionInInitializerError(e);
+        }
         config.setJdbcUrl("jdbc:mysql://localhost:3307/repet");
         config.setUsername("root");
         config.setPassword("12345678Ab*");
@@ -19,7 +25,6 @@ public class ConnectionPool {
     }
 
     private ConnectionPool() {}
-
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
